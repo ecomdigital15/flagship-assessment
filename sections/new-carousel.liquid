@@ -1,0 +1,125 @@
+<div class="new-carousel">
+    <div class="new-carousel__container page-width">
+        {% for block in section.blocks %}
+            {% if block.settings.featured %}
+                <div class="new-carousel__item new-carousel__item--{{ block.type }}">
+                    <h2>{{ block.settings.title }}</h2>
+                    <p>{{ block.settings.description }}</p>                
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% for block in section.blocks %}
+            {% unless block.settings.featured %}
+                <div class="new-carousel__item new-carousel__item--{{ block.type }}">
+                    <h2>{{ block.settings.title }}</h2>
+                    <p>{{ block.settings.description }}</p>                
+                </div>
+            {% endunless %}
+        {% endfor %}
+    </div>
+</div>
+
+{% stylesheet %}
+  .new-carousel__item--campaign h2 {
+    color: red;
+  }
+
+  .new-carousel__item--new-product h2 {
+    color: blue;
+  }
+
+  .new-carousel__item--news h2 {
+    color: green;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "New Carousel",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "campaign",
+      "name": "Campaign",
+      "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Campaign"
+        },
+        {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description",
+            "default": "Campaign description"
+        },
+        {
+            "type": "checkbox",
+            "id": "featured",
+            "label": "Featured",
+            "default": false
+
+        }
+      ]
+    },
+    {
+        "type": "new-product",
+        "name": "New Product",
+        "settings": [
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Campaign"
+          },
+          {
+              "type": "textarea",
+              "id": "description",
+              "label": "Description",
+              "default": "Campaign description"
+          },
+          {
+              "type": "checkbox",
+              "id": "featured",
+              "label": "Featured",
+              "default": false
+  
+          }
+        ]
+      },
+      {
+        "type": "news",
+        "name": "News",
+        "settings": [
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Campaign"
+          },
+          {
+              "type": "textarea",
+              "id": "description",
+              "label": "Description",
+              "default": "Campaign description"
+          },
+          {
+              "type": "checkbox",
+              "id": "featured",
+              "label": "Featured",
+              "default": false
+  
+          }
+        ]
+      }
+  ],
+  "presets": [
+    {
+      "name": "New Carousel"
+    }
+  ]
+}
+{% endschema %}
+
+
