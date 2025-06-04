@@ -15,6 +15,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'component-product-stock-cart-modal.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -721,8 +722,63 @@
     <script type="application/ld+json">
       {{ product | structured_data }}
     </script>
+
+    
+    {% assign inventory_count = 0 %}
+    {% for variant in product.variants %}
+      {% assign inventory_count = inventory_count | plus: variant.inventory_quantity %}
+    {% endfor %}
+    <div class="product-stock-cart-modal active">
+      <div class="modal-content">
+        <button type="button" class="modal-close-button" aria-label="Close">
+          {% render 'icon-close' %}
+        </button>
+        <div class="stock-info">
+          <h3>Current Stock</h3>
+          <p>{{ inventory_count }} units available</p>
+        </div>
+        <div class="cart-info">
+          <h3>Your Cart</h3>
+          
+          {% for line in cart.items %}
+            <div class="cart-item">
+              <img src="{{ line.image | image_url: width: 200 }}" alt="{{ line.title }}" width="50" height="50">
+              <div class="cart-item-details">
+                <p>{{ line.title }}</p>
+                <p>Quantity: {{ line.quantity }}</p>
+                {% if line.properties['cart_index'] %}
+                  <p>Cart Index: {{ line.properties['cart_index']  }}</p>
+                {% endif %}
+              </div>
+              <p class="cart-item-price">{{ line.line_price | money }}</p>
+            </div>
+          {% endfor %}
+          
+        
+          <div class="cart-total">
+            <p>Total: {{ cart.total_price | money }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <script src="{{ 'product-stock-cart-modal.js' | asset_url }}" defer="defer"></script>
   </div>
 </product-info>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const productStockCartModal = document.querySelector('.product-stock-cart-modal');
+    const productStockCartModalButton = document.querySelector('.product-stock-cart-modal button'); 
+    
+    if (productStockCartModalButton) {
+      productStockCartModalButton.addEventListener('click', function() {
+        productStockCartModal.classList.toggle('active');
+      });
+    }
+  });
+</script>
 
 {% schema %}
 {
