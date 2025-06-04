@@ -24,9 +24,8 @@
       endif
     -%}
 
-    <product-form
-      class="product-form"
-      data-hide-errors="{{ gift_card_recipient_feature_active }}"
+    <ajax-cart
+      class="product-form ajax-cart"
       data-section-id="{{ section.id }}"
     >
       <div class="product-form__error-message-wrapper" role="alert" hidden>
@@ -98,7 +97,7 @@
           {%- endif -%}
         </div>
       {%- endform -%}
-    </product-form>
+    </ajax-cart>
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">
@@ -149,3 +148,6 @@
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </div>
+
+{{ 'component-ajax-cart.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ajax-cart.js' | asset_url }}" defer="defer"></script>
